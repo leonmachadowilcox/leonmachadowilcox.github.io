@@ -1,0 +1,10 @@
+<!-- footer.html -->
+<footer>
+  <div class="container">
+    <p>© <span id="year"></span> Leon Machado-Wilcox • CS 499 Capstone ePortfolio</p>
+  </div>
+</footer>
+<script>
+  const y = document.getElementById('year');
+  if (y) y.textContent = new Date().getFullYear();
+</script>

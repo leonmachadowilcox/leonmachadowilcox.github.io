@@ -1,0 +1,12 @@
+
+CS 499 ePortfolio Final Checklist
+
+[ ] Create GitHub repository or GitHub Pages site
+[ ] Upload all three enhanced artifacts
+[ ] Write narratives for each artifact (enhancements, challenges, skills used)
+[ ] Record code review video and upload/share link
+[ ] Write and upload professional self-assessment (PDF or embedded)
+[ ] Include homepage with basic navigation and introduction
+[ ] Make site accessible and mobile-friendly if possible
+[ ] Review all links and media
+[ ] Submit final GitHub Pages URL to instructor

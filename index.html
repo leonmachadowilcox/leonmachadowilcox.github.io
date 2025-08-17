@@ -1,1 +1,238 @@
-Hello World
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1" name="viewport" />
+  <title>CS 499 Capstone ePortfolio – Leon Machado-Wilcox</title>
+  <meta
+    content="CS 499 Capstone ePortfolio showcasing Software Design &amp; Engineering, Algorithms &amp; Data Structures, and Databases enhancements, plus professional self-assessment."
+    name="description" />
+  <link href="css/styles.css" rel="stylesheet" />
+</head>
+
+<body>
+  <!-- Shared header (populated by js/include.js) -->
+  <div data-include="header.html"></div>
+  <main>
+    <!-- Hero -->
+    <section aria-label="Introduction" class="hero">
+      <div class="container wrap">
+        <div>
+          <div aria-label="Specialization" class="badge">
+            <span class="kicker">Software Design • Algorithms • Databases</span>
+          </div>
+          <h1>Professional Portfolio for CS 499</h1>
+          <p class="lead">
+            A curated selection of original and enhanced artifacts demonstrating
+            <strong>software engineering</strong>, <strong>data structures &amp; algorithms</strong>, and
+            <strong>database design</strong> — plus a professional self-assessment and code review.
+          </p>
+          <div class="cta">
+            <a class="btn primary" href="#self-assessment">Read Self-Assessment</a>
+            <a class="btn secondary" href="#artifacts">View Artifacts</a>
+          </div>
+        </div>
+        <div aria-label="Rubric coverage" class="panel pad" role="region">
+          <h2 style="margin-top:0">Rubric Coverage at a Glance</h2>
+          <p class="muted">This portfolio maps each deliverable to five outcomes: Collaboration, Communication,
+            Algorithms, Techniques, and Security.</p>
+          <table aria-label="Rubric table">
+            <thead>
+              <tr>
+                <th>Outcome</th>
+                <th>Where to See</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Collaboration</td>
+                <td>Self-Assessment • All narratives</td>
+              </tr>
+              <tr>
+                <td>Communication</td>
+                <td>Code Review video • UML/ER docs</td>
+              </tr>
+              <tr>
+                <td>Algorithms</td>
+                <td>C++ Project Two narrative &amp; code diffs</td>
+              </tr>
+              <tr>
+                <td>Techniques</td>
+                <td>Animal Shelter refactor • Tooling</td>
+              </tr>
+              <tr>
+                <td>Security</td>
+                <td>CSRF/validation • Prepared statements • RBAC</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+    <!-- Self-Assessment -->
+    <section aria-labelledby="self-assessment-title" id="self-assessment">
+      <html>
+
+      <body>
+        <div class="container">
+          <div class="panel pad">
+            <h2 style="margin-top:0">Professional Self-Assessment</h2>
+            <p class="muted">
+              I began my computer science degree at SNHU in <strong>Fall of 2022</strong> and will complete it upon
+              finishing this course in
+              <strong>Fall of 2025</strong>. Before enrolling, I brought a decade of professional experience in Quality
+              Assurance, but my exposure
+              to software development was primarily from a testing perspective. Throughout this program, I expanded my
+              technical expertise to include
+              full-stack development, algorithms and data structures, database design, and secure coding
+              practices—preparing me for an SDET-style role.
+            </p>
+            <h3>Core Strengths Beyond the Artifacts</h3>
+            <ul>
+              <li><strong>Collaborating in Agile environments:</strong> practiced sprint planning, Git workflows
+                (branching, PRs), and reviews without disrupting teammates.</li>
+              <li><strong>Communicating with stakeholders:</strong> tailored explanations for technical peers and
+                non-technical audiences (from CS-250 SDLC).</li>
+              <li><strong>Security awareness:</strong> from CS-405 Secure Coding—defensive programming, common
+                vulnerability identification, and remediation.</li>
+            </ul>
+            <h3>Enhancement One — Software Design &amp; Engineering</h3>
+            <p class="muted">
+              <strong>Artifact:</strong> Java Appointment/Contact/Task Manager • <strong>Origin:</strong> CS-320
+              Software Test Automation<br />
+              Refactored loosely connected classes into a more modular design, centralized validation, enforced ID
+              immutability, and expanded unit tests.
+              Result: clearer code, better maintainability, and stronger foundation for automation.
+            </p>
+            <h3>Enhancement Two — Algorithms &amp; Data Structures</h3>
+            <p class="muted">
+              <strong>Artifact:</strong> C++ Course Planner • <strong>Origin:</strong> CS-260 Data Structures &amp;
+              Algorithms<br />
+              Added guarded input in the menu loop, deterministic sort-before-print, and defensive CSV parsing.
+              Reinforced understanding of
+              complexity/memory and safe data handling.
+            </p>
+            <h3>Enhancement Three — Databases</h3>
+            <p class="muted">
+              <strong>Artifact:</strong> Flask/Dash Animal Shelter Dashboard • <strong>Origin:</strong> CS-340
+              Client/Server Development<br />
+              Connected to a database for CRUD, introduced role-based access, separated concerns (blueprints +
+              services), and improved UI/UX for deployment readiness.
+            </p>
+            <h3>Professional Growth</h3>
+            <p class="muted">
+              I evolved from a QA-focused professional into a developer-tester hybrid. My QA background sharpened
+              testing and debugging, while SNHU coursework
+              equipped me to design, build, and optimize systems end-to-end. That blend positions me well for SDET roles
+              bridging development and quality engineering.
+            </p>
+          </div>
+        </div>
+      </body>
+
+      </html>
+    </section>
+    <!-- Artifacts -->
+    <section aria-labelledby="artifacts-title" class="project-section" id="artifacts">
+      <div class="container">
+        <h2 id="artifacts-title">Artifacts</h2>
+        <div class="artifact-grid">
+          <!-- Animal Shelter -->
+          <article class="artifact-card">
+            <figure>
+              <img alt="Animal Shelter refactored dashboard/code screenshot" loading="lazy"
+                src="assets/images/after-animal-shelter.png" />
+            </figure>
+            <div class="card-body">
+              <h3>Animal Shelter Dashboard</h3>
+              <div class="meta">Software Design &amp; Engineering</div>
+              <p>Flask application refactored to Blueprints with service/model layers, CSRF protection, and RBAC.
+                Improved modularity, testability, and security.</p>
+              <div class="actions">
+                <a class="button" href="artifacts/animal-shelter.html">View Page</a>
+                <a class="button" href="https://github.com/leonmw-snhu/CS-340-Final/tree/main/animal_dashboard"
+                  rel="noopener" target="_blank">Source</a>
+              </div>
+            </div>
+          </article>
+          <!-- C++ Project Two -->
+          <article class="artifact-card">
+            <figure>
+              <img alt="C++ Project Two menu and CSV improvements screenshot" loading="lazy"
+                src="assets/images/after-cpp-csv.png" />
+            </figure>
+            <div class="card-body">
+              <h3>C++ Project Two — Menu &amp; CSV Load Refactor</h3>
+              <div class="meta">Algorithms &amp; Data Structures</div>
+              <p>Stronger input validation in the menu loop, safer CSV parsing, and deterministic sorting before output
+                to ensure reliable behavior.</p>
+              <div class="actions">
+                <a class="button" href="artifacts/cpp-project-two.html">View Page</a>
+                <a class="button" href="https://github.com/leonmw-snhu/CS-300-Final/tree/main/src" rel="noopener"
+                  target="_blank">Source</a>
+              </div>
+            </div>
+          </article>
+          <!-- Java Task Manager -->
+          <article class="artifact-card">
+            <figure>
+              <img alt="Java Task/Contact/Appointment Manager menu/UI screenshot" loading="lazy"
+                src="assets/images/java-task-manager/Appointments_after2.png" />
+            </figure>
+            <div class="card-body">
+              <h3>Java Task/Contact/Appointment Manager</h3>
+              <div class="meta">Databases</div>
+              <p>Refactored with validation and modularization; improved reliability of Contact/Task/Appointment logic
+                and persistence patterns.</p>
+              <div class="actions">
+                <a class="button" href="artifacts/java-task-manager.html">View Page</a>
+                <a class="button" href="https://github.com/leonmw-snhu/CS-320-Final/tree/main/src" rel="noopener"
+                  target="_blank">Source</a>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+    <!-- Code Review Video -->
+    <section aria-labelledby="code-review-title" id="code-review">
+      <div class="container">
+        <h2 id="code-review-title">Code Review Video</h2>
+        <div class="panel pad">
+          <!-- Replace VIDEO_ID_HERE with your actual YouTube ID -->
+          <div class="video-container">
+            <iframe src="https://www.youtube.com/embed/dBrv6hVkZK0?si=AmWnqDPLoPdsxf_I" title="YouTube video player"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
+            </iframe>
+          </div>
+          <!-- Contact -->
+          <section aria-labelledby="contact-title" id="contact">
+            <div class="container">
+              <div class="panel pad">
+                <h2 id="contact-title" style="margin-top:0">Contact</h2>
+                <ul>
+                  <li>LinkedIn: <a href="https://www.linkedin.com/in/leonmachadowilcox/" rel="noopener"
+                      target="_blank">https://www.linkedin.com/in/leonmachadowilcox/</a></li>
+                  <li>GitHub: <a href="https://github.com/leonmw-snhu" rel="noopener"
+                      target="_blank">https://github.com/leonmw-snhu</a></li>
+                  <li>Email: <a href="mailto:leon.machado-wilcox@snhu.edu">leon.machado-wilcox@snhu.edu</a></li>
+                </ul>
+              </div>
+            </div>
+          </section>
+  </main>
+  <!-- Shared footer (populated by js/include.js) -->
+  <div data-include="footer.html"></div>
+  <!-- Includes & tiny helpers -->
+  <script src="js/include.js"></script>
+  <script>
+    // If your footer has a <span id="year"></span>, keep this helper:
+    const y = document.getElementById('year');
+    if (y) y.textContent = new Date().getFullYear();
+  </script>
+</body>
+
+</html>

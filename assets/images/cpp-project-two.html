@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Project Two (C++) — Algorithms & Data Structures</title>
+  <link rel="stylesheet" href="../css/styles.css" />
+  <style>
+    figure { margin: 0 0 18px 0; }
+    .caption { margin-top: 8px; font-size: .95rem; color: var(--muted, #9aa3b2); line-height: 1.35; }
+    .content { max-width: 1000px; margin: 0 auto; }
+    .wideimg { width: 100%; height: auto; border-radius: 12px; display:block; }
+    .helper { font-size: .9rem; color: var(--muted, #9aa3b2); background: rgba(255,255,255,.03); padding: 10px 12px; border-radius: 10px; }
+    code.inline { background: rgba(255,255,255,.06); padding: 1px 6px; border-radius: 6px; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container nav">
+      <div class="brand"><div class="logo" aria-hidden="true"></div><h1>C++ Project Two</h1></div>
+      <nav aria-label="Primary">
+        <ul>
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="#narrative">Narrative</a></li>
+          <li><a href="#evidence">Evidence</a></li>
+          <li><a href="#docs">Docs</a></li>
+          <li><a href="#outcomes">Outcomes</a></li>
+          <li><a href="#links">Links</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="content">
+    <section class="hero">
+      <h2>Algorithms & Data Structures</h2>
+      <p class="muted">Safer menu input • Robust CSV parsing • Clear constants • Code clarity</p>
+    </section>
+
+    <section id="narrative">
+      <div class="panel pad">
+        <h2 style="margin-top:0">Narrative</h2>
+        <p><strong>Scope clarification:</strong> The core list algorithms (<code class="inline">Search</code>, <code class="inline">SortList</code>) remained functionally the same; the enhancement here focuses on <em>robustness and correctness</em> around them.</p>
+        <p><strong>Problems (before):</strong> The menu loop accepted raw numeric input and could leave <code class="inline">cin</code> in a bad state; CSV parsing assumed perfect rows and could throw.</p>
+        <p><strong>Enhancements:</strong> Switched the menu to <code class="inline">getline</code> + <code class="inline">stringstream</code> with range checking and a clear <code class="inline">running</code> flag; added row-length validation and error handling to <code class="inline">loadCourses</code>. Introduced <code class="inline">DEFAULT_CSV_PATH</code> and <code class="inline">DEFAULT_COURSE_ID</code> for clarity.</p>
+        <p><strong>Result:</strong> The same algorithms now run in a safer, more predictable runtime environment with cleaner failure modes and clearer configuration.</p>
+      </div>
+    </section>
+
+    <section id="evidence">
+      <div class="panel pad">
+        <h2 style="margin-top:0">Evidence</h2>
+        <p class="helper"><strong>Where to screenshot (exact lines):</strong><br>
+          <em>Before</em> <code class="inline">Project Two.cpp</code> → loadCourses lines 227–253, menu loop lines 322–389.<br>
+          <em>After</em> <code class="inline">project_two.cpp</code> → loadCourses lines 238–279, menu loop lines 322–389.
+        </p>
+
+        <h3>Menu input — Before</h3>
+        <figure>
+          <img class="wideimg" src="../assets/images/before-cpp-menu.png" alt="Before: menu loop with while(choice!=9) and raw cin >> choice">
+          <figcaption class="caption"><strong>Before:</strong> <code class="inline">cin</code> read with minimal validation; non‑numeric input could poison the stream and break the loop.</figcaption>
+        </figure>
+
+        <h3>Menu input — After</h3>
+        <figure>
+          <img class="wideimg" src="../assets/images/after-cpp-menu.png" alt="After: menu loop uses getline + stringstream and Exit=4">
+          <figcaption class="caption"><strong>After:</strong> <code class="inline">getline</code> + <code class="inline">stringstream</code> with range check (1–4) and a clear <code class="inline">running</code> flag for exit. More resilient and readable.</figcaption>
+        </figure>
+
+        <h3>CSV loader — Before</h3>
+        <figure>
+          <img class="wideimg" src="../assets/images/before-cpp-csv.png" alt="Before: loadCourses reads rows without size checks or error handling">
+          <figcaption class="caption"><strong>Before:</strong> Direct field access without row validation; exceptions would bubble to main.</figcaption>
+        </figure>
+
+        <h3>CSV loader — After</h3>
+        <figure>
+          <img class="wideimg" src="../assets/images/after-cpp-csv.png" alt="After: loadCourses validates row size and wraps parsing in try/catch">
+          <figcaption class="caption"><strong>After:</strong> Validates row length and handles <code class="inline">csv::Error</code>; safer ingestion and clearer logging.</figcaption>
+        </figure>
+
+      </div>
+    </section>
+
+    <section id="docs">
+      <div class="panel pad">
+        <h2 style="margin-top:0">Docs</h2>
+        <ul class="muted">
+          <li><strong>Input handling:</strong> <code class="inline">getline</code> → <code class="inline">stringstream</code> → bounds check → <code class="inline">switch</code>.</li>
+          <li><strong>CSV flow:</strong> parser → header (optional) → <code class="inline">row</code> length guard → construct <code class="inline">Course</code> → <code class="inline">Append</code>.</li>
+          <li><strong>Constants:</strong> <code class="inline">DEFAULT_CSV_PATH</code>, <code class="inline">DEFAULT_COURSE_ID</code> remove magic values.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="outcomes">
+      <div class="panel pad">
+        <h2 style="margin-top:0">Outcome Callouts</h2>
+        <ul class="muted">
+          <li><strong>Communication:</strong> Explicit constants and clearer menu logic improve readability.</li>
+          <li><strong>Algorithms:</strong> Same algorithms, but executed within safer I/O boundaries.</li>
+          <li><strong>Techniques:</strong> Input sanitization, defensive parsing, and minimal error handling.</li>
+          <li><strong>Security:</strong> Reduced crash/undefined states from malformed input and CSV rows.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="links">
+      <div class="panel pad">
+        <h2 style="margin-top:0">Source & Docs</h2>
+        <ul>
+          <li><a href="../originals/cpp-project-two/">Original Code</a></li>
+          <li><a href="../enhanced/cpp-project-two/">Enhanced Code</a></li>
+          <li><a href="../assets/diagrams/cpp-er.png">ER/Flow Diagram</a></li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>© <span id="year"></span> Your Name</p>
+    </div>
+  </footer>
+  <script src="../js/main.js"></script>
+</body>
+</html>

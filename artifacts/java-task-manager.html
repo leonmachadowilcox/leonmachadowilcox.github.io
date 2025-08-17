@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Java Task/Contact/Appointment Manager • CS 499 ePortfolio</title>
+  <meta name="description" content="Java Manager with validation, tests, and service layer improvements — Databases enhancement." />
+  <link rel="stylesheet" href="../css/styles.css" />
+  <script src="../js/include.js" defer></script>
+</head>
+<body>
+
+  <!-- Header include -->
+  <div data-include="../header.html"></div>
+
+  <!-- HERO (matches index look) -->
+  <section class="hero hero-compact">
+    <div class="container wrap">
+      <div>
+        <div class="badge"><span class="kicker">Databases</span></div>
+        <h1>Java Task/Contact/Appointment Manager</h1>
+        <p class="lead">Service map for O(1) lookups, stronger validation, and clearer tests for CRUD operations.</p>
+        <div class="cta">
+          <a class="btn secondary" href="../index.html#artifacts">← Back to Artifacts</a>
+          <a class="btn primary" href="https://github.com/leonmw-snhu/CS-320-Final/tree/main/src" target="_blank" rel="noopener">View Source</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <main>
+
+    <!-- Overview -->
+    <section>
+      <div class="container">
+        <div class="panel pad">
+          <h2 style="margin-top:0">Overview</h2>
+          <p>Converted services to <code>Map&lt;String,Entity&gt;</code> to enforce unique IDs and constant-time access, centralized field validation in entities, and adjusted tests to assert edge cases (nulls, length limits, immutability of IDs).</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Evidence: Contacts -->
+    <section>
+      <div class="container">
+        <h3>Contacts — Before & After</h3>
+        <div class="grid-2">
+          <figure class="panel pad">
+            <figcaption class="muted">Before — Contacts</figcaption>
+            <img src="../assets/images/contact_before1.png" alt="Before: Contact class snippet" loading="lazy">
+          </figure>
+          <figure class="panel pad">
+            <figcaption class="muted">After — Contacts</figcaption>
+            <img src="../assets/images/contact_after1.png" alt="After: Contact class with validation and guard checks" loading="lazy">
+          </figure>
+        </div>
+        <div class="grid-2" style="margin-top:16px">
+          <figure class="panel pad">
+            <figcaption class="muted">Before — Contact Service</figcaption>
+            <img src="../assets/images/contact_before2.png" alt="Before: ContactService snippet" loading="lazy">
+          </figure>
+          <figure class="panel pad">
+            <figcaption class="muted">After — Contact Service</figcaption>
+            <img src="../assets/images/contact_after2.png" alt="After: ContactService map-based operations" loading="lazy">
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- Evidence: Appointments -->
+    <section>
+      <div class="container">
+        <h3>Appointments — Before & After</h3>
+        <div class="grid-2">
+          <figure class="panel pad">
+            <figcaption class="muted">Before — Appointments</figcaption>
+            <img src="../assets/images/java-task-manager/Appointments_before1.png" alt="Before: Appointment class snippet" loading="lazy">
+          </figure>
+          <figure class="panel pad">
+            <figcaption class="muted">After — Appointments</figcaption>
+            <img src="../assets/images/java-task-manager/Appointments_after1.png"" alt="After: Appointment class improvements" loading="lazy">
+          </figure>
+        </div>
+        <div class="grid-2" style="margin-top:16px">
+          <figure class="panel pad">
+            <figcaption class="muted">Before — Appointment Service</figcaption>
+            <img src="../assets/images/java-task-manager/Appointments_before2.png"" alt="Before: AppointmentService snippet" loading="lazy">
+          </figure>
+          <figure class="panel pad">
+            <figcaption class="muted">After — Appointment Service</figcaption>
+            <img src="../assets/images/java-task-manager/Appointments_after2.png"" alt="After: AppointmentService map-based operations" loading="lazy">
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- Evidence: Tasks -->
+    <section>
+      <div class="container">
+        <h3>Tasks — Before & After</h3>
+        <div class="grid-2">
+          <figure class="panel pad">
+            <figcaption class="muted">Before — Tasks</figcaption>
+            <img src="../assets/images/java-task-manager/Tasks_Java_before1.png" alt="Before: Task class snippet" loading="lazy">
+          </figure>
+          <figure class="panel pad">
+            <figcaption class="muted">After — Tasks</figcaption>
+            <img src="../assets/images/java-task-manager/Tasks_Java_after1.png" alt="After: Task class with validation & guards" loading="lazy">
+          </figure>
+        </div>
+        <div class="grid-2" style="margin-top:16px">
+          <figure class="panel pad">
+            <figcaption class="muted">Before — Task Service</figcaption>
+            <img src="../assets/images/java-task-manager/Tasks_Java_before2.png" alt="Before: TaskService snippet" loading="lazy">
+          </figure>
+          <figure class="panel pad">
+            <figcaption class="muted">After — Task Service</figcaption>
+            <img src="../assets/images/java-task-manager/Tasks_Java_after2.png" alt="After: TaskService map-based operations" loading="lazy">
+          </figure>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer include -->
+  <div data-include="../footer.html"></div>
+</body>
+</html>

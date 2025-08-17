@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>C++ Project Two — CSV & Menu • CS 499 ePortfolio</title>
+  <meta name="description" content="C++ menu input validation, safer CSV parsing, and sorted output — Algorithms & Data Structures enhancement." />
+  <link rel="stylesheet" href="../css/styles.css" />
+  <script src="../js/include.js" defer></script>
+</head>
+<body>
+
+  <!-- Header include -->
+  <div data-include="../header.html"></div>
+
+  <!-- HERO (matches index look) -->
+  <section class="hero hero-compact">
+    <div class="container wrap">
+      <div>
+        <div class="badge"><span class="kicker">Algorithms & Data Structures</span></div>
+        <h1>C++ Project Two — Menu & CSV Load Refactor</h1>
+        <p class="lead">Hardened input handling, robust CSV parsing, and explicit sorting for deterministic output.</p>
+        <div class="cta">
+          <a class="btn secondary" href="../index.html#artifacts">← Back to Artifacts</a>
+          <a class="btn primary" href="https://github.com/leonmw-snhu/CS-300-Final/tree/main/src" target="_blank" rel="noopener">View Source</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <main>
+
+    <!-- Overview -->
+    <section>
+      <div class="container">
+        <div class="panel pad">
+          <h2 style="margin-top:0">Overview</h2>
+          <p>Refactor focuses on safer user input (string read + parse), defensive CSV reading with row/column checks, and a clear <code>SortList()</code> call before printing to ensure alphabetical order regardless of load order.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Evidence: Before / After (Menu) -->
+    <section>
+      <div class="container">
+        <div class="grid-2">
+          <figure class="panel pad">
+            <figcaption class="muted">Before — Menu input (looser validation)</figcaption>
+            <img src="../assets/images/before_cpp_menu.png" alt="Before: C++ menu input handling" loading="lazy">
+          </figure>
+          <figure class="panel pad">
+            <figcaption class="muted">After — Menu input (robust parsing)</figcaption>
+            <img src="../assets/images/after_cpp_menu.png" alt="After: C++ menu input robust parsing" loading="lazy">
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- Evidence: Before / After (CSV Load) -->
+    <section>
+      <div class="container">
+        <div class="grid-2">
+          <figure class="panel pad">
+            <figcaption class="muted">Before — CSV load (minimal checks)</figcaption>
+            <img src="../assets/images/before-cpp-csv.png" alt="Before: C++ CSV loading snippet" loading="lazy">
+          </figure>
+          <figure class="panel pad">
+            <figcaption class="muted">After — CSV load (defensive checks)</figcaption>
+            <img src="../assets/images/after-cpp-csv.png" alt="After: C++ CSV loading with row/column checks" loading="lazy">
+          </figure>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer include -->
+  <div data-include="../footer.html"></div>
+</body>
+</html>

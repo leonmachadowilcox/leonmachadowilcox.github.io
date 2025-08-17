@@ -1,0 +1,379 @@
+/* ======================================================================
+   CS 499 ePortfolio — Unified Stylesheet
+   - Works for index.html and artifacts/*.html
+   - Right-aligned header links, mobile nav, clean cards & panels
+   - Dark surface with soft borders; readable contrast
+   ====================================================================== */
+
+/* ------------------ CSS Reset (lite) ------------------ */
+*,
+*::before,
+*::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; }
+img, picture, video, canvas, svg { display: block; max-width: 100%; }
+input, button, textarea, select { font: inherit; }
+a { color: inherit; }
+
+/* ------------------ Theme Tokens ------------------ */
+:root{
+  /* Base palette */
+  --bg: #0f1216;
+  --ink: #e8ecf1;           /* primary text */
+  --ink-soft: #b9c3cf;      /* secondary text */
+  --ink-muted: #95a3b2;     /* subtle text */
+  --panel: #151a20;         /* card/panel bg */
+  --panel-2: #1a2028;       /* hover/alt panel */
+  --border: #253040;        /* hairline border */
+  --accent: #68d6ff;        /* interactive/brand accent */
+  --accent-2: #7affc7;      /* secondary accent */
+  --danger: #ff6b6b;
+  --ok: #7ce38b;
+
+  /* Layout */
+  --container: 1120px;
+  --pad: 16px;
+  --gap: 16px;
+  --radius: 14px;
+  --shadow: 0 6px 24px rgba(0,0,0,.28);
+
+  /* Typography */
+  --font: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Inter,
+          Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+  --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  /* Buttons */
+  --btn-bg: #1f2731;
+  --btn-bg-hover: #222d3a;
+  --btn-border: #2a394c;
+}
+
+/* ------------------ Base ------------------ */
+body{
+  font-family: var(--font);
+  color: var(--ink);
+  background: radial-gradient(1200px 800px at 15% -10%, rgba(104,214,255,.12), transparent 60%),
+              radial-gradient(1000px 600px at 110% 0%, rgba(122,255,199,.10), transparent 55%),
+              var(--bg);
+  line-height: 1.6;
+}
+
+.container{
+  width: min(100% - (var(--pad)*2), var(--container));
+  margin-inline: auto;
+}
+
+/* Utility */
+.wrap{ display:flex; gap: var(--gap); align-items: stretch; }
+.pad{ padding: 16px; }
+.muted{ color: var(--ink-muted); }
+.badge .kicker{ letter-spacing:.3px; font-size:.9rem; color: var(--accent); }
+
+.panel{
+  background: color-mix(in oklab, var(--panel), transparent 0%);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+/* ------------------ Header / Nav ------------------ */
+header{
+  backdrop-filter: saturate(160%) blur(8px);
+  position: sticky; top:0; z-index: 40;
+  border-bottom: 1px solid var(--border);
+  background: color-mix(in oklab, var(--panel), transparent 35%);
+}
+
+header .nav{
+  display:flex; align-items:center; justify-content:space-between;
+  gap: var(--gap); padding: 12px 0;
+}
+
+.brand{ display:flex; align-items:center; gap:12px }
+.logo{
+  width:28px; height:28px; border-radius:999px;
+  background: radial-gradient(circle at 30% 30%, #9beafe, #67c3ff);
+  box-shadow: 0 0 0 3px rgba(255,255,255,.06) inset;
+}
+.brand h1{ font-size:18px; margin:0; font-weight:700; color:var(--ink) }
+
+/* Right-align the links */
+header .nav nav { margin-left: auto; }
+
+#mobile-menu{
+  display:flex; gap: 1rem; list-style:none; margin:0; padding:0;
+  align-items:center; justify-content:flex-end;
+}
+
+#mobile-menu a{
+  display:inline-block; padding:8px 12px; border-radius: 10px;
+  color: var(--ink-soft); border:1px solid transparent; text-decoration: none;
+}
+#mobile-menu a:hover{ color: var(--ink); background: rgba(255,255,255,.04); border-color: var(--border) }
+
+.navBtn{
+  display:none;
+  align-items:center; justify-content:center;
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--ink);
+  padding: .45rem .75rem;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+/* Mobile nav behavior (toggleNav() adds .open to #topnav) */
+@media (max-width: 800px){
+  .navBtn{ display: inline-flex; }
+  #mobile-menu{ display: none; width: 100%; margin-top: .75rem; flex-direction: column; align-items:flex-start; }
+  #topnav.open #mobile-menu{ display:flex; }
+}
+
+/* ------------------ Hero ------------------ */
+.hero{
+  padding: clamp(24px, 5vw, 48px) 0;
+}
+.hero .wrap{ flex-wrap: wrap; }
+.hero .panel{
+  background: color-mix(in oklab, var(--panel), transparent 10%);
+}
+.hero h2{ margin: 8px 0 12px; font-size: clamp(1.4rem, 2.2vw, 2rem); }
+.lead{ color: var(--ink-soft); font-size: 1.05rem; }
+
+.cta{ display:flex; gap: 12px; margin-top: 12px; flex-wrap: wrap; }
+
+/* ------------------ Buttons ------------------ */
+.btn, .button{
+  --_bg: var(--btn-bg); --_bd: var(--btn-border); --_ink: var(--ink);
+  display:inline-block; text-decoration:none; cursor:pointer;
+  padding: .6rem .9rem; border-radius: 12px;
+  border: 1px solid var(--_bd); color: var(--_ink); background: var(--_bg);
+  transition: background .2s ease, border-color .2s ease, transform .05s ease;
+}
+.btn:hover, .button:hover{ background: var(--btn-bg-hover); transform: translateY(-1px); }
+.btn.primary{ --_bg: linear-gradient(180deg, #69d8ff, #50b9ff); --_bd: #59c3ff; --_ink: #05121a; font-weight: 700; }
+.btn.secondary{ --_bg: #212a35; --_bd: #2a394c; }
+
+.button{ font-size:.95rem; }
+
+/* ------------------ Tables ------------------ */
+table{ width:100%; border-collapse: collapse; }
+thead th{
+  text-align:left; font-weight:700; color: var(--ink);
+  border-bottom: 1px solid var(--border); padding: .6rem .75rem;
+  background: color-mix(in oklab, var(--panel-2), transparent 20%);
+}
+tbody td{
+  padding: .55rem .75rem; color: var(--ink-soft); border-bottom: 1px solid var(--border);
+}
+tbody tr:hover td{ background: color-mix(in oklab, var(--panel), transparent 10%); color:var(--ink); }
+
+/* ------------------ Sections ------------------ */
+section{ padding: clamp(24px, 5vw, 48px) 0; }
+section h2{ font-size: clamp(1.25rem, 2vw, 1.6rem); margin: 0 0 12px; }
+
+/* ------------------ Artifact Grid & Cards ------------------ */
+.artifact-grid{
+  display:grid; gap: 18px;
+  grid-template-columns: repeat(12, 1fr);
+}
+.artifact-grid > article{
+  grid-column: span 12;
+}
+@media (min-width: 720px){
+  .artifact-grid > article{ grid-column: span 6; }
+}
+@media (min-width: 1040px){
+  .artifact-grid > article{ grid-column: span 4; }
+}
+
+.artifact-card{
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: clip;
+  display:flex; flex-direction: column;
+}
+
+.artifact-card figure{
+  margin:0;
+  aspect-ratio: 16 / 9;
+  background: #0d1116;
+  border-bottom: 1px solid var(--border);
+}
+.artifact-card figure img{
+  width:100%; height:100%; object-fit: cover;
+}
+
+.artifact-card .card-body{
+  padding: 14px 14px 16px;
+}
+.artifact-card h3{
+  margin: 0 0 4px;
+  font-size: 1.05rem;
+}
+.artifact-card .meta{
+  color: var(--ink-muted);
+  font-size: .9rem;
+  margin-bottom: 10px;
+}
+.artifact-card p{
+  color: var(--ink-soft);
+  margin: 0 0 12px;
+}
+.artifact-card .actions{
+  display:flex; gap: 10px; flex-wrap: wrap;
+}
+
+/* ------------------ Content blocks ------------------ */
+.prose p{ margin: 0 0 12px; color: var(--ink-soft); }
+.prose h3{ margin: 24px 0 8px; font-size: 1.05rem; }
+.prose ul{ margin: 8px 0 16px 1.2rem; color: var(--ink-soft); }
+
+/* Code blocks / inline code */
+code, pre{
+  font-family: var(--mono);
+  background: #0d1116;
+  color: #d4f0ff;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+code{ padding: 2px 6px; }
+pre{
+  padding: 12px 14px;
+  overflow:auto;
+  white-space: pre;
+  margin: 12px 0;
+}
+
+/* Figure blocks */
+.figure{
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: clip;
+  background: #0d1116;
+}
+.figure img{ width:100%; height:auto; display:block; }
+.figcap{
+  font-size: .9rem; color: var(--ink-muted);
+  padding: 8px 12px; border-top: 1px solid var(--border);
+}
+
+/* Image compare strip (before/after) */
+.compare{
+  display:grid; gap: 10px;
+}
+@media (min-width: 900px){
+  .compare.horizontal{ grid-template-columns: 1fr 1fr; }
+  .compare.vertical{ grid-auto-flow: row; }
+}
+
+/* ------------------ Video Placeholder ------------------ */
+.video{
+  width:100%; aspect-ratio: 16/9;
+  display:grid; place-items:center;
+  color: var(--ink-muted);
+  border: 1px dashed var(--border);
+  border-radius: var(--radius);
+  background: #0d1116;
+}
+
+/* ------------------ Contact List ------------------ */
+#contact ul{ margin: 0; padding-left: 1rem; }
+#contact li{ margin: .25rem 0; }
+#contact a{ color: var(--accent); text-decoration: none; }
+#contact a:hover{ text-decoration: underline; }
+
+/* ------------------ Footer ------------------ */
+footer{
+  border-top: 1px solid var(--border);
+  background: color-mix(in oklab, var(--panel), transparent 35%);
+  padding: 18px 0;
+  color: var(--ink-muted);
+  font-size: .95rem;
+}
+
+/* ------------------ Helpers ------------------ */
+.grid-2{ display:grid; gap: 16px; grid-template-columns: 1fr; }
+@media (min-width: 900px){ .grid-2{ grid-template-columns: 1fr 1fr; } }
+
+.center{ text-align:center; }
+.right{ text-align:right; }
+.hide{ display:none !important; }
+/* Artifact grid polish */
+.artifact-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--gap, 16px);
+  align-items: stretch;
+}
+
+.artifact-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.artifact-card figure {
+  margin: 0;
+  position: relative;
+  /* uniform visual crop area */
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-top-left-radius: var(--radius, 12px);
+  border-top-right-radius: var(--radius, 12px);
+}
+
+.artifact-card figure img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* crops tall images consistently */
+  display: block;
+}
+
+.artifact-card .card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px;
+  flex: 1 1 auto;
+}
+
+.artifact-card .actions {
+  margin-top: auto;
+  /* keeps buttons aligned at bottom across cards */
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* Optional: unify panel spacing for consistency across sections */
+.panel.pad {
+  padding: 20px;
+}
+
+.hero .panel.pad {
+  padding: 16px;
+}
+
+.video-container {
+  position: relative;
+  padding-bottom: 56.25%; /* 16:9 ratio */
+  height: 0;
+  overflow: hidden;
+  max-width: 100%;
+  background: #000;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+.video-container iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}

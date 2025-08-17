@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Animal Shelter Dashboard • CS 499 ePortfolio</title>
+  <meta name="description" content="Flask/Dash Animal Shelter Dashboard — Software Design & Engineering enhancement." />
+  <link rel="stylesheet" href="../css/styles.css" />
+  <script src="../js/include.js" defer></script>
+</head>
+<body>
+
+  <!-- Header include -->
+  <div data-include="../header.html"></div>
+
+  <!-- HERO (matches index look) -->
+  <section class="hero hero-compact">
+    <div class="container wrap">
+      <div>
+        <div class="badge"><span class="kicker">Software Design & Engineering</span></div>
+        <h1>Animal Shelter Dashboard</h1>
+        <p class="lead">Refactor to Flask blueprints + service/model layers, improved UX, and secure forms.</p>
+        <div class="cta">
+          <a class="btn secondary" href="../index.html#artifacts">← Back to Artifacts</a>
+          <a class="btn primary" href="https://github.com/leonmw-snhu/CS-340-Final/tree/main/animal_dashboard" target="_blank" rel="noopener">View Source</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <main>
+
+    <!-- Overview -->
+    <section>
+      <div class="container">
+        <div class="panel pad">
+          <h2 style="margin-top:0">Overview</h2>
+          <p>This enhancement separates routing, business logic, and data access using Flask <strong>Blueprints</strong> and a simple <strong>service/model</strong> layer. It also standardizes forms, adds CSRF protection, and cleans up the UI to align with accessibility and UX best practices.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Evidence: Before / After -->
+    <section>
+      <div class="container">
+        <div class="grid-2">
+          <figure class="panel pad">
+            <figcaption class="muted">Before — mixed routing & data access</figcaption>
+            <img src="../assets/images/before-animal-shelter.png" alt="Before refactor: route and data logic combined" loading="lazy">
+          </figure>
+          <figure class="panel pad">
+            <figcaption class="muted">After — blueprints + services</figcaption>
+            <img src="../assets/images/after-animal-shelter.png" alt="After refactor: blueprint structure and service calls" loading="lazy">
+          </figure>
+        </div>
+        <figure class="panel pad" style="margin-top:16px">
+          <figcaption class="muted">Side-by-side comparison</figcaption>
+          <img src="../assets/images/compare-animal-shelter.png" alt="Before vs After composite for Animal Shelter Dashboard" loading="lazy">
+        </figure>
+      </div>
+    </section>
+
+    <!-- Security & Config -->
+    <section>
+      <div class="container">
+        <div class="panel pad">
+          <h2 style="margin-top:0">Security & Configuration</h2>
+          <ul class="checklist">
+            <li><strong>CSRF:</strong> enabled via Flask-WTF for all POST forms.</li>
+            <li><strong>Validation:</strong> server-side schema & field checks for user input.</li>
+            <li><strong>Sessions:</strong> secure cookies; login-required routes for admin actions.</li>
+            <li><strong>Config:</strong> separate <code>config.Dev</code> and <code>config.Prod</code> with environment variables for secrets.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer include -->
+  <div data-include="../footer.html"></div>
+</body>
+</html>
