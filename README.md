@@ -43,4 +43,4 @@ Welcome to my Computer Science ePortfolio, created as the final project for SNHU
 ## 🔗 Contact & Resume
 - LinkedIn: [[YourLinkedIn](https://www.linkedin.com/in/leonmachadowilcox/)]
 - GitHub: [leonmw-snhu.github.io]
-- Email: [mailto:leon.machado-wilcox@snhu.edu]
+- Email: [mailto:leon@machado-wilcox.com]
