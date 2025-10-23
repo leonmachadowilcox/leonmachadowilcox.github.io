@@ -1,6 +1,6 @@
 # Leon Machado-Wilcox
 
-📍 Norwood, MA • 💻 [GitHub](https://github.com/leonmw-snhu) • 🔗 [LinkedIn](https://linkedin.com/in/leonmw) • ✉️ leon.machado.wilcox@gmail.com
+📍 Norwood, MA • 💻 [GitHub](https://github.com/leonmachadowilcox) • 🔗 [LinkedIn](https://linkedin.com/in/leonmw) • ✉️ leon.machado.wilcox@gmail.com
 Versatile SDET | Python • C++ • Java | API Testing • Secure Coding • Business-Savvy
 #### <div style=line-height:0%>**Summary**</div>
 
