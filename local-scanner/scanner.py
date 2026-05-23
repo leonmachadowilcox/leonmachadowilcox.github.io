@@ -6,16 +6,20 @@ Serves a web UI for browsing, searching, and previewing files on your LAN.
 
 Usage:
     python3 scanner.py [directory] [--port 8080] [--host 0.0.0.0]
+                       [--password SECRET] [--username admin]
 
 Examples:
-    python3 scanner.py                        # scan current directory
-    python3 scanner.py ~/Movies --port 9000   # scan ~/Movies on port 9000
+    python3 scanner.py                                # scan current directory, no auth
+    python3 scanner.py ~/Movies --port 9000           # scan ~/Movies on port 9000
+    python3 scanner.py ~/Movies --password hunter2    # require a password
 """
 
 import os
 import re
 import sys
 import json
+import base64
+import secrets
 import socket
 import argparse
 import mimetypes
@@ -55,6 +59,10 @@ TEXT_BASENAMES = {
 }
 
 ROOT_DIR: Path = Path('.')
+
+# Set by main() when --password is supplied; None means no auth required.
+# Stored as (username_bytes, password_bytes) for secrets.compare_digest.
+CREDENTIALS: tuple[bytes, bytes] | None = None
 
 
 # ---------------------------------------------------------------------------
@@ -1017,7 +1025,43 @@ class Handler(BaseHTTPRequestHandler):
     def log_message(self, fmt, *args):
         pass  # suppress default Apache-style logging
 
+    # -- Basic Auth check ----------------------------------------------------
+    def _check_auth(self) -> bool:
+        """Return True if the request is authorised (or no auth is required)."""
+        if CREDENTIALS is None:
+            return True
+        auth_header = self.headers.get('Authorization', '')
+        if not auth_header.startswith('Basic '):
+            self._demand_auth()
+            return False
+        try:
+            decoded = base64.b64decode(auth_header[6:]).split(b':', 1)
+            if len(decoded) != 2:
+                raise ValueError
+            supplied_user, supplied_pass = decoded
+        except Exception:
+            self._demand_auth()
+            return False
+        expected_user, expected_pass = CREDENTIALS
+        # Use compare_digest for both to avoid timing attacks
+        ok = (secrets.compare_digest(supplied_user, expected_user) and
+              secrets.compare_digest(supplied_pass, expected_pass))
+        if not ok:
+            self._demand_auth()
+        return ok
+
+    def _demand_auth(self):
+        self.send_response(401)
+        self.send_header('WWW-Authenticate', 'Basic realm="Local File Scanner"')
+        self.send_header('Content-Type', 'text/plain')
+        self.send_header('Content-Length', '13')
+        self.end_headers()
+        self.wfile.write(b'Unauthorised.')
+
     def do_GET(self):
+        if not self._check_auth():
+            return
+
         parsed = urlparse(self.path)
         path = parsed.path
         qs = parse_qs(parsed.query)
@@ -1126,7 +1170,7 @@ class Handler(BaseHTTPRequestHandler):
 # ---------------------------------------------------------------------------
 
 def main():
-    global ROOT_DIR
+    global ROOT_DIR, CREDENTIALS
 
     parser = argparse.ArgumentParser(
         description='Local File Scanner — browse files on your LAN via a web UI',
@@ -1150,6 +1194,16 @@ def main():
         default='0.0.0.0',
         help='Interface to bind (default: 0.0.0.0 = all interfaces)',
     )
+    parser.add_argument(
+        '--password',
+        default=None,
+        help='Require this password to access the UI (HTTP Basic Auth)',
+    )
+    parser.add_argument(
+        '--username',
+        default='admin',
+        help='Username for Basic Auth (default: admin)',
+    )
     args = parser.parse_args()
 
     root = Path(args.directory).expanduser().resolve()
@@ -1160,6 +1214,9 @@ def main():
     ROOT_DIR = root
     lan_ip = get_lan_ip()
 
+    if args.password:
+        CREDENTIALS = (args.username.encode(), args.password.encode())
+
     server = HTTPServer((args.host, args.port), Handler)
 
     print(f'\n  Local File Scanner')
@@ -1167,6 +1224,10 @@ def main():
     print(f'  Scanning : {root}')
     print(f'  Local    : http://localhost:{args.port}')
     print(f'  LAN      : http://{lan_ip}:{args.port}')
+    if CREDENTIALS:
+        print(f'  Auth     : username={args.username}  password={"*" * len(args.password)}')
+    else:
+        print(f'  Auth     : none (use --password to require a password)')
     print(f'\n  Press Ctrl+C to stop.\n')
 
     try:
