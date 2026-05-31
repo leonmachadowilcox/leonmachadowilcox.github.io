@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Character Reference Sheet</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: #ececec;
+      color: #1a1a1a;
+      min-height: 100vh;
+    }
+
+    /* ── Toolbar ── */
+    .toolbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: #1e1e2e;
+      color: #cdd6f4;
+      padding: 10px 20px;
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    }
+
+    .toolbar-title {
+      font-size: 0.9rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      color: #cba6f7;
+      margin-right: auto;
+    }
+
+    .btn {
+      padding: 6px 14px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 0.82rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      transition: opacity 0.15s, transform 0.1s;
+    }
+    .btn:hover  { opacity: 0.88; }
+    .btn:active { transform: scale(0.97); }
+
+    .btn-import { background: #45475a; color: #cdd6f4; }
+    .btn-export { background: #89b4fa; color: #1e1e2e; }
+    .btn-print  { background: #a6e3a1; color: #1e1e2e; }
+
+    /* ── Sheet ── */
+    .sheet {
+      max-width: 1080px;
+      margin: 28px auto;
+      padding: 32px;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+    }
+
+    /* Character name */
+    .char-name-input {
+      width: 100%;
+      font-size: 2.2rem;
+      font-weight: 800;
+      border: none;
+      border-bottom: 3px solid #e0e0e0;
+      outline: none;
+      color: #1a1a1a;
+      background: transparent;
+      padding-bottom: 6px;
+      margin-bottom: 28px;
+      transition: border-color 0.2s;
+    }
+    .char-name-input:focus         { border-bottom-color: #89b4fa; }
+    .char-name-input::placeholder  { color: #c0c0c0; }
+
+    /* ── Image grid ── */
+    .image-section {
+      margin-bottom: 28px;
+    }
+
+    .image-grid {
+      display: grid;
+      gap: 18px;
+      margin-bottom: 14px;
+    }
+    .image-grid[data-cols="1"] { grid-template-columns: minmax(0,1fr); max-width: 380px; }
+    .image-grid[data-cols="2"] { grid-template-columns: repeat(2, minmax(0,1fr)); }
+    .image-grid[data-cols="3"] { grid-template-columns: repeat(3, minmax(0,1fr)); }
+    .image-grid[data-cols="4"] { grid-template-columns: repeat(4, minmax(0,1fr)); }
+
+    .image-slot {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .slot-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #888;
+      border: none;
+      border-bottom: 1px dashed #ddd;
+      outline: none;
+      background: transparent;
+      width: 100%;
+      padding-bottom: 2px;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .slot-label:focus { border-bottom-color: #89b4fa; color: #555; }
+
+    .slot-drop {
+      aspect-ratio: 3/4;
+      border: 2px dashed #d0d0d0;
+      border-radius: 8px;
+      background: #fafafa;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      overflow: hidden;
+      position: relative;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .slot-drop:hover         { border-color: #89b4fa; background: #f0f5ff; }
+    .slot-drop.drag-over    { border-color: #cba6f7; background: #f5f0ff; }
+    .slot-drop.filled       { border-style: solid; border-color: #d0d0d0; background: #fff; cursor: default; }
+
+    .slot-drop img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+      pointer-events: none;
+    }
+
+    .slot-placeholder {
+      text-align: center;
+      color: #c8c8c8;
+      user-select: none;
+      pointer-events: none;
+    }
+    .slot-placeholder svg   { display: block; margin: 0 auto 8px; }
+    .slot-placeholder small { font-size: 0.75rem; }
+
+    .clear-img-btn {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      background: rgba(0,0,0,0.45);
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      width: 26px;
+      height: 26px;
+      font-size: 15px;
+      line-height: 26px;
+      text-align: center;
+      cursor: pointer;
+      display: none;
+      transition: background 0.15s;
+    }
+    .slot-drop.filled .clear-img-btn { display: block; }
+    .clear-img-btn:hover { background: rgba(180,0,0,0.65); }
+
+    .slot-caption {
+      font-size: 0.78rem;
+      color: #777;
+      border: none;
+      border-bottom: 1px dashed #e0e0e0;
+      outline: none;
+      background: transparent;
+      width: 100%;
+      padding: 2px 0;
+      transition: border-color 0.2s;
+    }
+    .slot-caption:focus       { border-bottom-color: #89b4fa; }
+    .slot-caption::placeholder { color: #d0d0d0; }
+
+    .remove-slot-btn {
+      align-self: flex-end;
+      background: none;
+      border: none;
+      font-size: 0.7rem;
+      color: #c0c0c0;
+      cursor: pointer;
+      padding: 0;
+      transition: color 0.15s;
+    }
+    .remove-slot-btn:hover { color: #e06060; }
+
+    /* Add slot row */
+    .add-slot-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .add-slot-btn {
+      background: none;
+      border: 2px dashed #d0d0d0;
+      border-radius: 6px;
+      padding: 7px 18px;
+      color: #aaa;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .add-slot-btn:hover { border-color: #89b4fa; color: #89b4fa; }
+    .add-slot-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+
+    .slot-count-hint {
+      font-size: 0.72rem;
+      color: #bbb;
+    }
+
+    /* ── Info section ── */
+    .section-divider {
+      border: none;
+      border-top: 2px solid #f0f0f0;
+      margin: 4px 0 24px;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px 28px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .field.full { grid-column: 1 / -1; }
+
+    .field label {
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #aaa;
+    }
+
+    .field input,
+    .field textarea {
+      border: none;
+      border-bottom: 1.5px solid #e8e8e8;
+      outline: none;
+      font-family: inherit;
+      font-size: 0.93rem;
+      color: #1a1a1a;
+      background: transparent;
+      padding: 4px 0;
+      transition: border-color 0.2s;
+    }
+    .field input:focus,
+    .field textarea:focus { border-bottom-color: #89b4fa; }
+    .field input::placeholder,
+    .field textarea::placeholder { color: #d8d8d8; }
+
+    .field textarea {
+      resize: vertical;
+      min-height: 72px;
+      line-height: 1.5;
+    }
+
+    /* hidden file inputs */
+    input[type="file"] { display: none; }
+
+    /* ── Print ── */
+    @media print {
+      body { background: white; }
+
+      .toolbar { display: none !important; }
+
+      .sheet {
+        max-width: 100%;
+        margin: 0;
+        padding: 16px;
+        border-radius: 0;
+        box-shadow: none;
+      }
+
+      .add-slot-row    { display: none !important; }
+      .remove-slot-btn { display: none !important; }
+      .clear-img-btn   { display: none !important; }
+      .slot-placeholder { display: none !important; }
+
+      .slot-drop {
+        border-style: solid;
+        border-color: #ccc;
+        cursor: default;
+      }
+
+      .field input,
+      .field textarea,
+      .slot-label,
+      .slot-caption,
+      .char-name-input {
+        border-bottom: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Toolbar -->
+<div class="toolbar">
+  <span class="toolbar-title">Character Reference Sheet</span>
+  <button class="btn btn-import" id="importBtn">Import JSON</button>
+  <button class="btn btn-export" id="exportBtn">Export JSON</button>
+  <button class="btn btn-print"  id="printBtn">Print / Save PDF</button>
+</div>
+
+<!-- Hidden file inputs -->
+<input type="file" id="importFileInput" accept=".json">
+
+<!-- Sheet -->
+<div class="sheet">
+  <input class="char-name-input" id="charName" type="text"
+         placeholder="Character Name" spellcheck="false" autocomplete="off">
+
+  <!-- Image section -->
+  <div class="image-section">
+    <div class="image-grid" id="imageGrid" data-cols="0"></div>
+    <div class="add-slot-row">
+      <button class="add-slot-btn" id="addSlotBtn">+ Add image slot</button>
+      <span class="slot-count-hint" id="slotHint"></span>
+    </div>
+  </div>
+
+  <!-- Text info -->
+  <hr class="section-divider">
+  <div class="info-grid">
+    <div class="field">
+      <label>Species / Race</label>
+      <input type="text" id="species" placeholder="e.g. Human, Elf, Kitsune…" autocomplete="off">
+    </div>
+    <div class="field">
+      <label>Age</label>
+      <input type="text" id="age" placeholder="e.g. 24, Unknown, Ancient" autocomplete="off">
+    </div>
+    <div class="field">
+      <label>Pronouns</label>
+      <input type="text" id="pronouns" placeholder="e.g. she/her, they/them" autocomplete="off">
+    </div>
+    <div class="field">
+      <label>Height / Build</label>
+      <input type="text" id="height" placeholder='e.g. 5&apos;6", slender' autocomplete="off">
+    </div>
+    <div class="field full">
+      <label>Personality</label>
+      <textarea id="personality" placeholder="Traits, quirks, demeanor…"></textarea>
+    </div>
+    <div class="field full">
+      <label>Color Palette / Design Notes</label>
+      <textarea id="colorNotes" placeholder="Key colors, patterns, materials…"></textarea>
+    </div>
+    <div class="field full">
+      <label>General Notes</label>
+      <textarea id="generalNotes" placeholder="Backstory, lore, important details…"></textarea>
+    </div>
+  </div>
+</div>
+
+<script>
+  const grid      = document.getElementById('imageGrid');
+  const addBtn    = document.getElementById('addSlotBtn');
+  const slotHint  = document.getElementById('slotHint');
+  const MAX_SLOTS = 4;
+
+  const DEFAULT_LABELS = ['Full Body', 'Head / Bust', 'Details', 'Accessories'];
+
+  let slots  = [];   // { id, labelEl, captionEl, dropEl, imgEl, data: { label, caption, filename, imageDataUrl } }
+  let nextId = 0;
+
+  // ── Update grid cols attribute ──────────────────────────────────────────────
+  function syncGrid() {
+    grid.setAttribute('data-cols', slots.length);
+    addBtn.disabled = slots.length >= MAX_SLOTS;
+    slotHint.textContent = slots.length > 0
+      ? `${slots.length} / ${MAX_SLOTS} slots`
+      : 'Up to 4 image slots';
+  }
+
+  // ── Build a slot DOM node ───────────────────────────────────────────────────
+  function createSlot({ label = '', caption = '', filename = null, imageDataUrl = null } = {}) {
+    if (slots.length >= MAX_SLOTS) return;
+
+    const id  = nextId++;
+    const def = DEFAULT_LABELS[slots.length] ?? `View ${slots.length + 1}`;
+    const data = { label: label || def, caption, filename, imageDataUrl };
+
+    // ── DOM ──
+    const slotEl = document.createElement('div');
+    slotEl.className = 'image-slot';
+
+    // Label
+    const labelEl = document.createElement('input');
+    labelEl.className   = 'slot-label';
+    labelEl.value       = data.label;
+    labelEl.placeholder = 'Label';
+    labelEl.addEventListener('input', () => { data.label = labelEl.value; });
+
+    // Drop / click area
+    const dropEl = document.createElement('div');
+    dropEl.className = 'slot-drop';
+
+    // Placeholder graphic
+    const phEl = document.createElement('div');
+    phEl.className = 'slot-placeholder';
+    phEl.innerHTML = `
+      <svg width="44" height="44" viewBox="0 0 24 24" fill="none"
+           stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="3" width="18" height="18" rx="2"/>
+        <circle cx="8.5" cy="8.5" r="1.5"/>
+        <polyline points="21 15 16 10 5 21"/>
+      </svg>
+      <small>Click or drag &amp; drop</small>`;
+
+    // Image element
+    const imgEl = document.createElement('img');
+    imgEl.alt = '';
+
+    // Clear button
+    const clearBtn = document.createElement('button');
+    clearBtn.className = 'clear-img-btn';
+    clearBtn.title     = 'Remove image';
+    clearBtn.textContent = '×';
+    clearBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      setImage(null, null);
+    });
+
+    dropEl.appendChild(phEl);
+    dropEl.appendChild(imgEl);
+    dropEl.appendChild(clearBtn);
+
+    // Hidden file input
+    const fileInput = document.createElement('input');
+    fileInput.type   = 'file';
+    fileInput.accept = 'image/*';
+    fileInput.addEventListener('change', () => {
+      const file = fileInput.files[0];
+      if (file) loadFile(file);
+      fileInput.value = '';
+    });
+    dropEl.appendChild(fileInput);
+
+    // Click to upload (only when not filled)
+    dropEl.addEventListener('click', () => {
+      if (!dropEl.classList.contains('filled')) fileInput.click();
+    });
+
+    // Drag-and-drop
+    dropEl.addEventListener('dragover', (e) => { e.preventDefault(); dropEl.classList.add('drag-over'); });
+    dropEl.addEventListener('dragleave', ()  => { dropEl.classList.remove('drag-over'); });
+    dropEl.addEventListener('drop', (e) => {
+      e.preventDefault();
+      dropEl.classList.remove('drag-over');
+      const file = e.dataTransfer.files[0];
+      if (file && file.type.startsWith('image/')) loadFile(file);
+    });
+
+    function loadFile(file) {
+      data.filename = file.name;
+      const reader  = new FileReader();
+      reader.onload = (ev) => setImage(ev.target.result, file.name);
+      reader.readAsDataURL(file);
+    }
+
+    function setImage(dataUrl, filename) {
+      data.imageDataUrl = dataUrl;
+      data.filename     = filename;
+      if (dataUrl) {
+        imgEl.src = dataUrl;
+        imgEl.style.display = 'block';
+        phEl.style.display  = 'none';
+        dropEl.classList.add('filled');
+      } else {
+        imgEl.src = '';
+        imgEl.style.display = 'none';
+        phEl.style.display  = '';
+        dropEl.classList.remove('filled');
+      }
+    }
+
+    // Restore image if provided (e.g. round-trip not possible from JSON alone)
+    if (imageDataUrl) {
+      setImage(imageDataUrl, filename);
+    } else {
+      imgEl.style.display = 'none';
+    }
+
+    // Caption
+    const captionEl = document.createElement('input');
+    captionEl.className   = 'slot-caption';
+    captionEl.value       = data.caption;
+    captionEl.placeholder = 'Caption…';
+    captionEl.addEventListener('input', () => { data.caption = captionEl.value; });
+
+    // Remove slot
+    const removeEl = document.createElement('button');
+    removeEl.className   = 'remove-slot-btn';
+    removeEl.textContent = '✕ Remove slot';
+    removeEl.addEventListener('click', () => {
+      slots = slots.filter(s => s.id !== id);
+      slotEl.remove();
+      syncGrid();
+    });
+
+    slotEl.appendChild(labelEl);
+    slotEl.appendChild(dropEl);
+    slotEl.appendChild(captionEl);
+    slotEl.appendChild(removeEl);
+    grid.appendChild(slotEl);
+
+    slots.push({ id, labelEl, captionEl, dropEl, imgEl, data });
+    syncGrid();
+  }
+
+  // ── Collect text data (no images — those are re-uploaded) ──────────────────
+  function collectData() {
+    return {
+      name:         document.getElementById('charName').value,
+      species:      document.getElementById('species').value,
+      age:          document.getElementById('age').value,
+      pronouns:     document.getElementById('pronouns').value,
+      height:       document.getElementById('height').value,
+      personality:  document.getElementById('personality').value,
+      colorNotes:   document.getElementById('colorNotes').value,
+      generalNotes: document.getElementById('generalNotes').value,
+      images: slots.map(s => ({
+        label:    s.data.label,
+        caption:  s.data.caption,
+        filename: s.data.filename,   // hint only — not stored as data
+      })),
+    };
+  }
+
+  // ── Restore text data ──────────────────────────────────────────────────────
+  function applyData(d) {
+    const set = (id, val) => { if (val !== undefined) document.getElementById(id).value = val; };
+    set('charName',     d.name);
+    set('species',      d.species);
+    set('age',          d.age);
+    set('pronouns',     d.pronouns);
+    set('height',       d.height);
+    set('personality',  d.personality);
+    set('colorNotes',   d.colorNotes);
+    set('generalNotes', d.generalNotes);
+
+    if (Array.isArray(d.images)) {
+      // Clear existing slots
+      slots = [];
+      grid.innerHTML = '';
+      nextId = 0;
+      d.images.forEach(img => createSlot({ label: img.label, caption: img.caption, filename: img.filename }));
+    }
+  }
+
+  // ── Export ─────────────────────────────────────────────────────────────────
+  document.getElementById('exportBtn').addEventListener('click', () => {
+    const data = collectData();
+    const json = JSON.stringify(data, null, 2);
+    const blob = new Blob([json], { type: 'application/json' });
+    const url  = URL.createObjectURL(blob);
+    const a    = document.createElement('a');
+    a.href     = url;
+    const stem = (data.name.trim() || 'character').replace(/[^a-z0-9]/gi, '_').toLowerCase();
+    a.download = `${stem}_ref.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+  });
+
+  // ── Import ─────────────────────────────────────────────────────────────────
+  document.getElementById('importBtn').addEventListener('click', () => {
+    document.getElementById('importFileInput').click();
+  });
+
+  document.getElementById('importFileInput').addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      try {
+        applyData(JSON.parse(ev.target.result));
+      } catch {
+        alert('Could not parse JSON file — make sure it was exported from this tool.');
+      }
+    };
+    reader.readAsText(file);
+    e.target.value = '';
+  });
+
+  // ── Print ──────────────────────────────────────────────────────────────────
+  document.getElementById('printBtn').addEventListener('click', () => window.print());
+
+  // ── Add slot button ────────────────────────────────────────────────────────
+  addBtn.addEventListener('click', () => createSlot());
+
+  // ── Init: start with 2 slots ───────────────────────────────────────────────
+  createSlot();
+  createSlot();
+</script>
+</body>
+</html>
